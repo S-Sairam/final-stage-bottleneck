@@ -110,7 +110,7 @@ def main(args):
 
         # --- Start a new W&B Run for this configuration ---
         run = wandb.init(
-            project="graph-r-learner-paper",
+            project="final-stage-bottleneck",
             name=config['name'],
             config=config,
             reinit=True
