@@ -6,7 +6,7 @@ data_params:
   d: 10
   graph_type: 'ba'
   cate_type: 'local_x' # Key change
-  real_data: null
+  real_data_name: null
 
 model_params:
   num_layers: 2
