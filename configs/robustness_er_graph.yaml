@@ -1,0 +1,18 @@
+name: 'Robustness_ER_Graph'
+num_seeds: 30
+
+data_params:
+  n: 1000
+  d: 10
+  graph_type: 'er' # Changed
+  cate_type: 'simple_h'
+  real_data: null
+
+model_params:
+  num_layers: 2
+  hidden_dim: 32
+
+training_params:
+  nuisance_epochs: 150
+  cate_epochs: 200
+  lr: 0.001
