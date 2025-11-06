@@ -18,7 +18,7 @@ import torch
 import os
 import argparse
 from typing import Dict
-
+import matplotlib.pyplot as plt
 # Import all the necessary components from your src package
 from src.data import simulate_data
 from src.engine import (

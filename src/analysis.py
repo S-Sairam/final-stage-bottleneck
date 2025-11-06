@@ -43,7 +43,7 @@ def run_tsne_visualization(X, edge_index, true_tau, config: dict):
     with torch.no_grad():
         embeddings = F.relu(model.gnn.convs[0](X, edge_index))
     
-    tsne = TSNE(n_components=2, perplexity=30, learning_rate='auto', init='pca', n_iter=1000, random_state=42)
+    tsne = TSNE(n_components=2, perplexity=30, learning_rate='auto', init='pca', max_iter=1000, random_state=42)
     tsne_results = tsne.fit_transform(embeddings.numpy())
     
     plt.figure(figsize=(8, 6))

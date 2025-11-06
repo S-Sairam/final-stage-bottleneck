@@ -1,11 +1,12 @@
-name: 'Robustness_SBM_Graph'
+# configs/robustness_interaction_cate.yaml
+name: 'Robustness_Interaction_CATE'
 num_seeds: 30
 
 data_params:
   n: 1000
   d: 10
-  graph_type: 'sbm' # Changed
-  cate_type: 'simple_h'
+  graph_type: 'ba' # Using the Barabási–Albert graph for this test
+  cate_type: 'interaction' # This is the key change that activates the interaction term in the DGP
   real_data_name: null
 
 model_params:
