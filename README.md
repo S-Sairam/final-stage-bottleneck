@@ -1,6 +1,6 @@
 # The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference
 
-[![License: MIT](https://img.shields.io/badge/License-Apache-2.0-yellow.svg)](https://www.apache.org/licenses/LICENSE-2.0))
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0))
 [![W&B Project](https://img.shields.io/badge/W&B-Project_Dashboard-blue.svg)](https://wandb.ai/pesu-ai-ml/final-stage-bottleneck/)
 
 This repository contains the official implementation and experimental framework for the paper, "The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference."
