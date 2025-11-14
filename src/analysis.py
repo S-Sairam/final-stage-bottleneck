@@ -115,3 +115,54 @@ def generate_report(results_over_seeds: dict, config: dict):
     print(f"\nPlot saved to {plot_filename}")
 
     return means['baseline_mse'], means['graphdml_mse'], p_abl, plt.gcf(), report_str
+
+def run_hub_vs_periphery_analysis(results: dict, edge_index, true_tau, config: dict):
+    """
+    Dissects the nuisance bottleneck on the BA graph to prove the hypothesis.
+    """
+    if config['data_params']['graph_type'] != 'ba':
+        print("  -> Skipping Hub vs. Periphery analysis (not a BA graph).")
+        return
+
+    node_degrees = degree(edge_index[0], num_nodes=len(true_tau))
+    
+    # Define hubs and periphery based on degree quantiles
+    hub_threshold = torch.quantile(node_degrees.float(), 0.9)
+    periphery_threshold = torch.quantile(node_degrees.float(), 0.5)
+    
+    hub_mask = node_degrees >= hub_threshold
+    periphery_mask = node_degrees <= periphery_threshold
+    
+    # Calculate errors for SANITY_CHECK (MLP+GNN)
+    errors_sanity = (results['sanity_check_preds'] - true_tau).pow(2)
+    mse_sanity_hubs = errors_sanity[hub_mask].mean().item()
+    mse_sanity_periphery = errors_sanity[periphery_mask].mean().item()
+    
+    # Calculate errors for GRAPHDML (GNN+GNN)
+    errors_graphdml = (results['graphdml_preds'] - true_tau).pow(2)
+    mse_graphdml_hubs = errors_graphdml[hub_mask].mean().item()
+    mse_graphdml_periphery = errors_graphdml[periphery_mask].mean().item()
+    
+    # --- Create the plot ---
+    labels = ['Hubs (Top 10%)', 'Periphery (Bottom 50%)']
+    sanity_mses = [mse_sanity_hubs, mse_sanity_periphery]
+    graphdml_mses = [mse_graphdml_hubs, mse_graphdml_periphery]
+    
+    x = np.arange(len(labels))
+    width = 0.35
+    
+    fig, ax = plt.subplots(figsize=(10, 6))
+    rects1 = ax.bar(x - width/2, sanity_mses, width, label='Sanity Check (MLP+GNN)', color='khaki')
+    rects2 = ax.bar(x + width/2, graphdml_mses, width, label='Graph R-Learner (GNN+GNN)', color='salmon')
+    
+    ax.set_ylabel('Mean Squared CATE Error')
+    ax.set_title('Nuisance Bottleneck Analysis on Barabási-Albert Graph')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+    fig.tight_layout()
+    
+    plot_filename = f"analysis_hub_vs_periphery_{config['name']}.png"
+    plt.savefig(plot_filename)
+    print(f"  -> Hub vs. Periphery analysis plot saved to {plot_filename}")
+    return plt.gcf()

@@ -8,7 +8,7 @@ data_params:
   graph_type: 'ba' # Using the Barabási–Albert graph for this test
   cate_type: 'interaction' # This is the key change that activates the interaction term in the DGP
   real_data_name: null
-
+  noise_level: 0.5
 model_params:
   num_layers: 2
   hidden_dim: 32

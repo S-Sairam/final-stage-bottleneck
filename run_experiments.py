@@ -31,7 +31,8 @@ from src.analysis import (
     generate_report,
     run_two_model_test,
     run_error_analysis,
-    run_tsne_visualization
+    run_tsne_visualization,
+    run_hub_vs_periphery_analysis
 )
 
 def run_single_experiment(seed: int, config: Dict) -> Dict:
@@ -164,7 +165,11 @@ def main(args):
                      tsne_plot = run_tsne_visualization(X, edge_index, true_tau, config)
                      run.log({"tsne_plot": wandb.Image(tsne_plot)})
                      plt.close(tsne_plot)
-                 
+                if config['name'] == 'Main_Result_BA_Graph':
+                    print("\n--- Running Hub vs. Periphery Analysis ---")
+                    hub_plot = run_hub_vs_periphery_analysis(first_seed_preds, edge_index, true_tau, config)
+                    run.log({"hub_vs_periphery_plot": wandb.Image(hub_plot)})
+                    plt.close(hub_plot)                 
         run.finish()
 
 if __name__ == "__main__":

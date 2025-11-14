@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch_geometric.nn import GCNConv
+from torch_geometric.nn import GCNConv, GATConv
 
 class MLP(nn.Module):
     def __init__(self, in_dim, hidden_dim=32, out_dim=1, num_layers=2):
@@ -15,13 +15,36 @@ class MLP(nn.Module):
     def forward(self, x): return self.net(x)
 
 class GNN(nn.Module):
-    def __init__(self, in_dim, hidden_dim=32, out_dim=1, num_layers=2):
+    """ A generalized GNN that can be instantiated with different layer types (e.g., GCN, GAT). """
+    def __init__(self, in_dim, hidden_dim=32, out_dim=1, num_layers=2, layer_type='gcn', heads=4):
         super().__init__()
         self.convs = nn.ModuleList()
-        self.convs.append(GCNConv(in_dim, hidden_dim))
+        self.layer_type = layer_type.lower()
+        
+        GNNLayer = GCNConv
+        if self.layer_type == 'gat':
+            GNNLayer = GATConv
+        
+        # First layer
+        in_channels_next = in_dim
+        if self.layer_type == 'gat':
+            self.convs.append(GNNLayer(in_channels_next, hidden_dim, heads=heads))
+            in_channels_next = hidden_dim * heads
+        else:
+            self.convs.append(GNNLayer(in_channels_next, hidden_dim))
+            in_channels_next = hidden_dim
+
+        # Hidden layers
         for _ in range(num_layers - 2):
-            self.convs.append(GCNConv(hidden_dim, hidden_dim))
-        self.convs.append(GCNConv(hidden_dim, out_dim))
+            self.convs.append(GNNLayer(in_channels_next, hidden_dim))
+            in_channels_next = hidden_dim
+            
+        # Final layer
+        if self.layer_type == 'gat':
+            self.convs.append(GNNLayer(in_channels_next, out_dim, heads=1))
+        else:
+            self.convs.append(GNNLayer(in_channels_next, out_dim))
+
     def forward(self, x, edge_index):
         for i, conv in enumerate(self.convs):
             x = conv(x, edge_index)
@@ -30,18 +53,17 @@ class GNN(nn.Module):
         return x
 
 class FinalGNN(nn.Module):
-    """ The GNN model for the final-stage R-Learner. """
-    def __init__(self, in_dim, hidden_dim=32, num_layers=2):
+    """ The GNN model for the final-stage R-Learner, now architecturally flexible. """
+    def __init__(self, in_dim, **model_kwargs):
         super().__init__()
-        self.gnn = GNN(in_dim, hidden_dim, out_dim=1, num_layers=num_layers)
+        self.gnn = GNN(in_dim, **model_kwargs)
     def forward(self, x, edge_index): return self.gnn(x, edge_index)
 
 class T_Learner_GNN(nn.Module):
-    """ The GNN model for the T-Learner baseline. Takes features and treatment as input. """
-    def __init__(self, in_dim, hidden_dim=32, out_dim=1, num_layers=2):
+    """ The GNN model for the T-Learner baseline, now architecturally flexible. """
+    def __init__(self, in_dim, **model_kwargs):
         super().__init__()
-        # Input dimension is feature dim + 1 for the treatment variable
-        self.gnn = GNN(in_dim + 1, hidden_dim, out_dim, num_layers)
+        self.gnn = GNN(in_dim + 1, **model_kwargs)
     def forward(self, x, t, edge_index):
         xt = torch.cat([x, t], dim=1)
         return self.gnn(xt, edge_index)

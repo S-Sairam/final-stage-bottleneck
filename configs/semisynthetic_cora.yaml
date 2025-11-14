@@ -7,7 +7,7 @@ data_params:
   graph_type: null # Not needed, determined by data
   cate_type: 'simple_h'
   real_data_name: 'cora' # Key change
-
+  noise_level: 0.5
 model_params:
   num_layers: 2
   hidden_dim: 32

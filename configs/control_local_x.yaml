@@ -6,6 +6,7 @@ data_params:
   d: 10
   graph_type: 'ba'
   cate_type: 'local_x' # Key change
+  noise_level: 0.5
   real_data_name: null
 
 model_params:

@@ -18,16 +18,20 @@ class SimGNN(nn.Module):
         x = F.relu(self.conv1(x, edge_index))
         return self.conv2(x, edge_index)
 
-def simulate_data(seed=42, n=1000, d=10, graph_type='ba', cate_type='simple_h', real_data_name=None):
+
+def simulate_data(seed=42, n=1000, d=10, graph_type='ba', cate_type='simple_h', 
+                  real_data_name=None, noise_level=0.5): # <-- Added 'noise_level'
     """
-    Simulates a world with configurable graph topology and CATE function.
+    Simulates a world with configurable graph topology, CATE function, and noise level.
     Can operate in fully-synthetic or semi-synthetic mode.
     """
     torch.manual_seed(seed); np.random.seed(seed)
     
     if real_data_name:
         try:
-            dataset = Planetoid(root='/tmp/Cora', name='Cora')
+            # Note: A real dataset should be specified in your YAML for real_data_name
+            # e.g., real_data_name: 'Cora'
+            dataset = Planetoid(root='/tmp/' + real_data_name, name=real_data_name)
             real_data = dataset[0]
             X, edge_index = real_data.x, real_data.edge_index
             n, d = X.shape
@@ -37,7 +41,9 @@ def simulate_data(seed=42, n=1000, d=10, graph_type='ba', cate_type='simple_h', 
     else:
         X = torch.randn(n, d)
         if graph_type == 'er':
-            edge_index = erdos_renyi_graph(n, edge_prob=0.05)
+            # Assuming edge_prob is passed in data_params for ER graphs
+            edge_prob = 0.05 
+            edge_index = erdos_renyi_graph(n, edge_prob=edge_prob)
         elif graph_type == 'sbm':
             block_sizes = torch.tensor([n // 2, n - (n // 2)])
             edge_probs = torch.tensor([[0.1, 0.01], [0.01, 0.1]])
@@ -63,7 +69,8 @@ def simulate_data(seed=42, n=1000, d=10, graph_type='ba', cate_type='simple_h', 
     else:
         true_causal_effect = 2.0 + 1.5 * torch.sin(H_1hop[:, 0])
     
-    Y = (H_1hop[:, 0] + 0.5 * X[:, 1] + 0.5 * torch.randn(n) + 
+    # --- The critical change is here ---
+    Y = (H_1hop[:, 0] + 0.5 * X[:, 1] + noise_level * torch.randn(n) + 
          T.squeeze() * true_causal_effect)
     
     return X, T, Y.unsqueeze(1), edge_index, true_causal_effect
