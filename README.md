@@ -1,6 +1,6 @@
 # The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference
 
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0))
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue)](https://www.apache.org/licenses/LICENSE-2.0)
 [![W&B Project](https://img.shields.io/badge/W&B-Project_Dashboard-blue.svg)](https://wandb.ai/pesu-ai-ml/final-stage-bottleneck/)
 
 This repository contains the official implementation and experimental framework for the paper, "The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference."
@@ -41,20 +41,29 @@ Create and activate a Python virtual environment, then install the required pack
 git clone https://github.com/S-Sairam/final-stage-bottleneck.git
 cd final-stage-bottleneck
 
+# Create a virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
 # Install dependencies
 pip install -r requirements.txt
 ```
 
 ### 2. Running a Single Experiment
 To reproduce our main result on a Barabási-Albert graph over 30 seeds, run:
-(Ensure you are logged into W&B: wandb login)
+(Ensure you are logged into W&B: ```wandb login```)
 
 ```bash
-python run_experiments.py --config=configs/main_ba_simple_h.yaml
+python3 run_experiments.py --config=configs/main_ba_simple_h.yaml
 
 ```
 ### 3. Running the Full Experimental Suite
 To reproduce all tables and figures from the paper, run:
 ```bash
-python run_experiments.py --all
+python3 run_experiments.py --all
 ```
+### 4. Running the Architecture Sensitivity Analysis 
+```bash
+python3 run_sensitivity_analysis.py
+```
+
