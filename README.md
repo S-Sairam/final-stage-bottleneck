@@ -21,6 +21,10 @@ Our comprehensive, multi-seed experiments reveal a clear and actionable hierarch
   <em><b>Figure 1:</b> Main results on a Barabási-Albert graph (30 seeds). The Graph R-Learner (GNN+GNN) and its Sanity Check (MLP+GNN) variant, both using a graph-aware final stage, catastrophically outperform all models with a graph-blind final stage. Error bars denote one standard deviation.</em>
 </p>
 
+1.  **(Must-Have) A Graph-Aware Final Stage:** We prove with overwhelming statistical significance (p < 0.001) that a misspecified, graph-blind final stage results in **catastrophic failure** (the "Representation Bottleneck"). This is the primary driver of performance.
+2.  **(Should-Have) A Robust DML Framework:** We show that the R-Learner's debiased structure provides a significant performance advantage over strong, non-DML baselines (a GNN T-Learner), validating its theoretical promise.
+3.  **(Good-to-Have) Graph-Aware Nuisance Models:** We discover and provide a mechanistic explanation (the "Hub-Periphery Trade-off") for a subtle but significant "nuisance bottleneck," proving that an end-to-end graph-aware pipeline is required for optimal performance
+
 ### Key Scientific Contributions:
 
 1.  **A Catastrophic Representation Bottleneck:** We prove with overwhelming statistical significance (p < 0.001) that R-Learners with a graph-blind final-stage fail completely, even when paired with powerful GNN nuisance models.
