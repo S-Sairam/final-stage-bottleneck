@@ -24,13 +24,6 @@ Our comprehensive, multi-seed experiments reveal a clear and actionable hierarch
 1.  **(Must-Have) A Graph-Aware Final Stage:** We prove with overwhelming statistical significance (p < 0.001) that a misspecified, graph-blind final stage results in **catastrophic failure** (the "Representation Bottleneck"). This is the primary driver of performance.
 2.  **(Should-Have) A Robust DML Framework:** We show that the R-Learner's debiased structure provides a significant performance advantage over strong, non-DML baselines (a GNN T-Learner), validating its theoretical promise.
 3.  **(Good-to-Have) Graph-Aware Nuisance Models:** We discover and provide a mechanistic explanation (the "Hub-Periphery Trade-off") for a subtle but significant "nuisance bottleneck," proving that an end-to-end graph-aware pipeline is required for optimal performance
-
-### Key Scientific Contributions:
-
-1.  **A Catastrophic Representation Bottleneck:** We prove with overwhelming statistical significance (p < 0.001) that R-Learners with a graph-blind final-stage fail completely, even when paired with powerful GNN nuisance models.
-2.  **The R-Learner Framework Advantage:** We show that the debiased R-Learner framework provides a significant performance advantage over a strong, non-DML graph-aware baseline (a GNN T-Learner).
-3.  **A Topology-Dependent Nuisance Bottleneck:** We discover and provide a mechanistic explanation for a subtle second-order effect (the "Hub-Periphery Trade-off"), showing that a fully graph-aware pipeline is most critical on graphs with diffuse community structures.
-
 ---
 
 ## Reproducing Our Results
