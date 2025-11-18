@@ -1,6 +1,6 @@
 # The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference
 
-[![arXiv](https://img.shields.io/badge/arXiv-Paper%20in%20Prep-b31b1b.svg)](https://arxiv.org/abs/2511.XXXXX)
+[![arXiv](https://img.shields.io/badge/arXiv:2511.13018-b31b1b.svg)](https://arxiv.org/abs/2511.13018)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![W&B Project](https://img.shields.io/badge/W&B-Project%20Dashboard-blue.svg)](https://wandb.ai/pesu-ai-ml/final-stage-bottleneck/)
 
@@ -71,10 +71,13 @@ python run_sensitivity_analysis.py
 ### Citation
 Our paper is currently in preparation for submission. If you find this work and benchmark useful in your research, please star the repository and check back for an updated citation.
 ```bibtex
-@misc{sairam2025bottleneck,
-  title   = {The Final-Stage Bottleneck: A Systematic Dissection of the {R}-Learner for Network Causal Inference},
-  author  = {Sairam, S. and Girdhar, Sara and Soni, Shivam},
-  year    = {2025},
-  howpublished = {\url{https://github.com/S-Sairam/final-stage-bottleneck}},
+@misc{s2025finalstagebottlenecksystematicdissection,
+      title={The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference}, 
+      author={Sairam S, Sara Girdhar, Shivam Soni},
+      year={2025},
+      eprint={2511.13018},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2511.13018}, 
 }
 ```
