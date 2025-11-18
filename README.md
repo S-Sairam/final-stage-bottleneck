@@ -69,7 +69,7 @@ To run the sensitivity analyses (e.g., for the appendix):
 python run_sensitivity_analysis.py
 ```
 ### Citation
-Our paper is currently in preparation for submission. If you find this work and benchmark useful in your research, please star the repository and check back for an updated citation.
+Our paper is currently available as a preprint. If you find this work and benchmark useful in your research, please star the repository and use the citation below.
 ```bibtex
 @misc{s2025finalstagebottlenecksystematicdissection,
       title={The Final-Stage Bottleneck: A Systematic Dissection of the R-Learner for Network Causal Inference}, 
